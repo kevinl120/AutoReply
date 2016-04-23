@@ -21,3 +21,20 @@ function reply() {
         clearInterval(replyClicker);
     };
 }
+
+
+
+function getLastMessages()
+{
+    var same[] = document.getElementByClass("unreadHighlight");
+    var index;
+
+	if(same[numberOfMessages]!=""){
+		reply();
+		numberOfMessages = numberOfMessages+1;
+	}
+	else{
+		console.log("")
+	}
+}
+
