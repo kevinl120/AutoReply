@@ -5,6 +5,10 @@
     "description": "Replies 'same' to all facebook messages",
     "version": "1.0",
 
+    "browser_action": {
+        "default_popup": "./popup/popup.html"
+    },
+
     "content_scripts": [{
         "js": ["./lib/jquery-2.2.0.js", "reply.js"],
         "matches": ["*://*.facebook.com/messages/*"]
