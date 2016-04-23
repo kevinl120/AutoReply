@@ -1,23 +1,47 @@
-setTimeout(reply, 5000);
+// References
+var chatBox = document.getElementsByName("message_body")[0];
+var replyBut = document.getElementById("u_0_y");
 
-function reply() {
-    var chatBox = document.getElementsByName("message_body")[0];
-    var replyBut = document.getElementById("u_0_y");
+// Enter message in chat box
+var fillChat = function() {
+    chatBox.classList.remove("DOMControl_placeholder");
+    chatBox.value = "Same";
+};
+var chatIntervalID;
 
-    var test = setInterval(function() {
-        chatBox.classList.remove("DOMControl_placeholder");
-        chatBox.value = "Same";
+// Hit reply button (slight delay after filling in message box)
+var replyClick = function() {
+    replyBut.click();
+};
+var replyIntervalID;
 
-        getEventListeners(chatBox).paste[0].listener();
+var startRepeat = function() {
+    chatIntervalID = setInterval(fillChat, 1500);
+    // Slight delay between filling in message and clicking reply
+    replyIntervalID = setInterval(replyClick, 2000);
+};
 
-    }, 1000);
+var stopRepeat = function() {
+    clearInterval(chatIntervalID);
+    clearInterval(replyIntervalID);
+};
 
-    var replyClicker = setInterval(function() {
-        replyBut.click();
-    }, 2000);
 
-    var stopKittens = function() {
-        clearInterval(kitInt);
-        clearInterval(replyClicker);
-    };
-}
+chrome.storage.local.get("start", function(callback) {
+    if (callback) {
+        startRepeat();
+        console.log("defaultStart");
+    } else {
+        console.log("defaultStop");
+    }
+});
+
+chrome.storage.onChanged.addListener(function(changes, areaName) {
+    if (changes.start.newValue) {
+        startRepeat();
+        console.log("start");
+    } else {
+        stopRepeat();
+        console.log("stop");
+    }
+});

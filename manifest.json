@@ -12,5 +12,9 @@
     "content_scripts": [{
         "js": ["./lib/jquery-2.2.0.js", "reply.js"],
         "matches": ["*://*.facebook.com/messages/*"]
-    }]
+    }],
+
+    "permissions": [
+        "storage"
+    ]
 }
