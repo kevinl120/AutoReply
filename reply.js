@@ -26,12 +26,12 @@ function reply() {
 
 function getLastMessages()
 {
-    var same[] = document.getElementByClass("unreadHighlight");
+    var messagesArray[] = document.getElementByClass("unreadHighlight");
     var index;
 
-	if(same[numberOfMessages]!=""){
+	if(messagesArray[count]!=""){
 		reply();
-		numberOfMessages = numberOfMessages+1;
+		count = count+1;
 	}
 	else{
 		console.log("")
