@@ -1,4 +1,5 @@
 setTimeout(reply, 5000);
+setTimeout(getLastMessages,500);
 
 function reply() {
     var chatBox = document.getElementsByName("message_body")[0];
