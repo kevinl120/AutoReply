@@ -1,0 +1,12 @@
+{
+    "manifest_version": 2,
+
+    "name": "AutoReply",
+    "description": "Replies 'same' to all facebook messages",
+    "version": "1.0",
+
+    "content_scripts": [{
+        "js": ["./lib/jquery-2.2.0.js", "reply.js"],
+        "matches": ["*://*.facebook.com/messages/*"]
+    }]
+}
