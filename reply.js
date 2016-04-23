@@ -7,41 +7,53 @@ var fillChat = function() {
     chatBox.classList.remove("DOMControl_placeholder");
     chatBox.value = "Same";
 };
-var chatIntervalID;
 
 // Hit reply button (slight delay after filling in message box)
 var replyClick = function() {
     replyBut.click();
 };
-var replyIntervalID;
 
 var startRepeat = function() {
-    chatIntervalID = setInterval(fillChat, 1500);
-    // Slight delay between filling in message and clicking reply
-    replyIntervalID = setInterval(replyClick, 2000);
+    setInterval(fillChat, 2000);
+    setInterval(replyClick, 2000);
+    console.log("start1");
 };
 
 var stopRepeat = function() {
-    clearInterval(chatIntervalID);
-    clearInterval(replyIntervalID);
+    // Clear all intervals (should be a better way to do this)
+    for (var i = 1; i < 99999; i++) {
+        window.clearInterval(i);
+    }
 };
 
-
-chrome.storage.local.get("start", function(callback) {
-    if (callback) {
+// Check if should start messaging on page load
+chrome.storage.sync.get("start", function(callback) {
+    if (callback.start) {
         startRepeat();
-        console.log("defaultStart");
-    } else {
-        console.log("defaultStop");
     }
 });
 
+// Start/stop messaging
 chrome.storage.onChanged.addListener(function(changes, areaName) {
     if (changes.start.newValue) {
         startRepeat();
-        console.log("start");
     } else {
         stopRepeat();
-        console.log("stop");
     }
 });
+
+// // select the target node
+// var target = document.querySelector("#webMessengerRecentMessages");
+//
+// // create an observer instance
+// var observer = new MutationObserver(function(mutations) {
+//     mutations.forEach(function(mutation) {
+//         console.log(mutation.type);
+//     });
+// });
+//
+// // configuration of the observer:
+// var config = { childList: true };
+//
+// // pass in the target node, as well as the observer options
+// observer.observe(target, config);
