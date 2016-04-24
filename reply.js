@@ -30,6 +30,9 @@ var stopRepeat = function() {
 chrome.storage.sync.get("start", function(callback) {
     if (callback.start) {
         startRepeat();
+        console.log("defaultStart");
+    } else {
+        console.log("defaultStop");
     }
 });
 
@@ -37,23 +40,38 @@ chrome.storage.sync.get("start", function(callback) {
 chrome.storage.onChanged.addListener(function(changes, areaName) {
     if (changes.start.newValue) {
         startRepeat();
+        console.log("startRepeat");
     } else {
         stopRepeat();
+        console.log("stopRepeat");
     }
 });
 
-// // select the target node
-// var target = document.querySelector("#webMessengerRecentMessages");
-//
-// // create an observer instance
-// var observer = new MutationObserver(function(mutations) {
-//     mutations.forEach(function(mutation) {
-//         console.log(mutation.type);
-//     });
-// });
-//
-// // configuration of the observer:
-// var config = { childList: true };
-//
-// // pass in the target node, as well as the observer options
-// observer.observe(target, config);
+// select the target node
+var target = document.querySelector("#webMessengerRecentMessages");
+
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        for (var i = 0; i < mutation.addedNodes.length; i++) {
+            var item = mutation.addedNodes[i];
+            if (hasClass(item, "unreadHighlight") || hasClass(item, "unreadFading")) {
+                console.log("unread");
+                fillChat();
+                replyClick();
+                // // Delay before reply to ensure only reply once
+                // setTimeout(replyClick, 100);
+            }
+        }
+    });
+});
+
+// configuration of the observer:
+var config = { attributes: true, childList: true, characterData: true };
+
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
+
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
