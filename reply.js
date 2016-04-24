@@ -28,7 +28,7 @@ function reply() {
 function getLastMessages()
 {
     var messagesArray[] = document.getElementByClass("unreadHighlight");
-    var index;
+    var count;
 
 	if(messagesArray[count]!=""){
 		reply();
